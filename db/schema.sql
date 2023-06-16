@@ -5,3 +5,15 @@ CREATE TABLE `departments`(
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(30) UNIQUE NOT NULL
 );
+
+CREATE TABLE `roles`(
+    `role_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(30) UNIQUE NOT NULL
+);
+
+CREATE TABLE `employees`(
+    `employee_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(30) UNIQUE NOT NULL
+);
+
+

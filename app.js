@@ -19,18 +19,37 @@ async function askQuestions() {
       const connection = await mysql.createConnection(buildConnectionOptions());
       const [result] = await connection.query("SELECT * FROM departments;");
       console.table(result);
-      console.log("working");
+      console.log("departments working");
     } catch (err) {
       console.error(err);
     }
-    //     const { addDepartment: newDepartmentName } = await inquirer.prompt(
-    //       addDepartment
-    //     );
-    //     dbDeclaration(departmentList, newDepartmentName);
-    //   } else {
-    //     dbDeclaration(departmentList);
+  } else if (initialList === "view all roles") {
+    try {
+      const connection = await mysql.createConnection(buildConnectionOptions());
+      const [result] = await connection.query("SELECT * FROM roles;");
+      console.table(result);
+      console.log("roles working");
+    } catch (err) {
+      console.error(err);
+    }
+  } else if (initialList === "view all employees") {
+    try {
+      const connection = await mysql.createConnection(buildConnectionOptions());
+      const [result] = await connection.query("SELECT * FROM employees;");
+      console.table(result);
+      console.log("employees working");
+    } catch (err) {
+      console.error(err);
+    }
   }
+  //     const { addDepartment: newDepartmentName } = await inquirer.prompt(
+  //       addDepartment
+  //     );
+  //     dbDeclaration(departmentList, newDepartmentName);
+  //   } else {
+  //     dbDeclaration(departmentList);
 }
+
 async function main() {
   const connection = await createConnection(buildConnectionOptions());
   await askQuestions();
