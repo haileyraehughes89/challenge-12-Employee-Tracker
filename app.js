@@ -4,19 +4,31 @@ const {
 } = require(`./config/dbConfig`);
 const inquirer = require("inquirer");
 const dbDeclaration = require("./config/dbDeclerations");
-const { departmentOptions, addDepartment } = require("./selections");
+const {
+  initialSelection,
+  departmentOptions,
+  addDepartment,
+} = require("./selections");
 const mysql = require("mysql2/promise");
 
 async function askQuestions() {
-  const { departmentList } = await inquirer.prompt(departmentOptions);
+  const { initialList } = await inquirer.prompt(initialSelection);
 
-  if (departmentList === "Create a department") {
-    const { addDepartment: newDepartmentName } = await inquirer.prompt(
-      addDepartment
-    );
-    dbDeclaration(departmentList, newDepartmentName);
-  } else {
-    dbDeclaration(departmentList);
+  if (initialList === "view all departments") {
+    try {
+      const connection = await mysql.createConnection(buildConnectionOptions());
+      const [result] = await connection.query("SELECT * FROM departments;");
+      console.table(result);
+      console.log("working");
+    } catch (err) {
+      console.error(err);
+    }
+    //     const { addDepartment: newDepartmentName } = await inquirer.prompt(
+    //       addDepartment
+    //     );
+    //     dbDeclaration(departmentList, newDepartmentName);
+    //   } else {
+    //     dbDeclaration(departmentList);
   }
 }
 async function main() {

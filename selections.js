@@ -1,7 +1,13 @@
-const tableOptions = {
+const initialSelection = {
   type: "list",
-  name: "tableList",
-  choices: ["Departments", "Roles", "Employees"],
+  name: "initialList",
+  choices: [
+    "view all departments",
+    "view all roles",
+    "view all employees",
+    "add a department",
+    "add a role",
+  ],
 };
 const departmentOptions = {
   type: "list",
@@ -16,4 +22,4 @@ const addDepartment = {
   default: null,
 };
 
-module.exports = { tableOptions, departmentOptions, addDepartment };
+module.exports = { initialSelection, departmentOptions, addDepartment };
