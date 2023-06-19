@@ -5,13 +5,21 @@ VALUES ("IT")
 , ("SALES")
 , ("HR");
 
-INSERT INTO `roles`(name,department_name,salary) 
-VALUES ("manager","SALES",200)
-, ("developer","HR",200)
-, ("typist","IT",200);
+INSERT INTO `roles`(name, department_id, salary) 
+VALUES ("manager",2,200)
+, ("developer",3,200)
+, ("typist",2,200);
+
+SELECT *
+FROM roles
+JOIN departments ON roles.department_id = departments.id;
 
 
-INSERT INTO `employees`(name) 
-VALUES ("babs")
-, ("marge")
-, ("sunny");
+INSERT INTO `employees`(first_name, last_name, role_id, manager) 
+VALUES ("babs", "blabs", 2,"manager")
+, ("marge", "barge", 2, "manager name")
+, ("sunny", "bunny", 3, "manager smanager");
+
+SELECT *
+FROM employees
+JOIN roles ON employees.role_id = roles.name;

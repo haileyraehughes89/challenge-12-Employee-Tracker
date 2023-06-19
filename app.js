@@ -26,7 +26,11 @@ async function askQuestions() {
   } else if (initialList === "view all roles") {
     try {
       const connection = await mysql.createConnection(buildConnectionOptions());
-      const [result] = await connection.query("SELECT * FROM roles;");
+      const [result] = await connection.query(
+        `SELECT roles.*, departments.name AS department_name
+        FROM roles 
+        JOIN departments ON roles.department_id = departments.id;`
+      );
       console.table(result);
       console.log("roles working");
     } catch (err) {
@@ -35,7 +39,11 @@ async function askQuestions() {
   } else if (initialList === "view all employees") {
     try {
       const connection = await mysql.createConnection(buildConnectionOptions());
-      const [result] = await connection.query("SELECT * FROM employees;");
+      const [result] =
+        await connection.query(`  SELECT employees.*, roles.name AS job_title, roles.salary, departments.name AS department_name
+        FROM employees
+        JOIN roles ON employees.role_id = roles.id
+        JOIN departments ON roles.department_id = departments.id`);
       console.table(result);
       console.log("employees working");
     } catch (err) {

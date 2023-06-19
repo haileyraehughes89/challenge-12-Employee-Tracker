@@ -12,16 +12,19 @@ CREATE TABLE `roles`(
     `id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `name` VARCHAR(30) UNIQUE NOT NULL
     , `department_id` INT
-    , `department_name` VARCHAR(30) NOT NULL
     , `salary` INT
 
     ,FOREIGN KEY (`department_id`) REFERENCES `departments`(`id`)
-    , FOREIGN KEY (`department_name`) REFERENCES `departments`(`name`)
 );
 
 CREATE TABLE `employees`(
-    `employee_id` INT AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(30) UNIQUE NOT NULL
+    `id` INT AUTO_INCREMENT PRIMARY KEY
+    , `first_name` VARCHAR(30) UNIQUE NOT NULL
+    , `last_name` VARCHAR(30) UNIQUE NOT NULL
+    , `role_id` INT NOT NULL
+    , `manager` VARCHAR(30) NOT NULL
+    , FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`)
+
 );
 
 
