@@ -1,3 +1,9 @@
+const mysql = require("mysql2/promise");
+const {
+  buildConnectionOptions,
+  createConnection,
+} = require("./config/dbConfig");
+
 const initialSelection = {
   type: "list",
   name: "initialList",
@@ -9,17 +15,42 @@ const initialSelection = {
     "add a role",
   ],
 };
-const departmentOptions = {
-  type: "list",
-  name: "departmentList",
-  choices: ["Get All Departments", "Create a department"],
-};
 
 const addDepartment = {
   type: "input",
-  name: "addDepartment",
+  name: "departmentName",
   message: `Name Department to be Added:`,
   default: null,
 };
 
-module.exports = { initialSelection, departmentOptions, addDepartment };
+const addRole = [
+  {
+    type: "input",
+    name: "roleName",
+    message: `Name Role to be Added:`,
+    default: null,
+  },
+  {
+    type: "input",
+    name: "roleSalary",
+    message: `Enter Role Salary:`,
+    default: null,
+  },
+  {
+    type: "list",
+    name: "departmentId",
+    message: "Select Department Role is Assigned To:",
+    choices: async () => {
+      const connection = await mysql.createConnection(buildConnectionOptions());
+      const [departments] = await connection.query(
+        "SELECT id, name FROM departments;"
+      );
+      return departments.map(({ id, name }) => ({
+        name,
+        value: id.toString(),
+      }));
+    },
+  },
+];
+
+module.exports = { initialSelection, addDepartment, addRole };

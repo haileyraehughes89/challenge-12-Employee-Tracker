@@ -4,11 +4,7 @@ const {
 } = require(`./config/dbConfig`);
 const inquirer = require("inquirer");
 const dbDeclaration = require("./config/dbDeclerations");
-const {
-  initialSelection,
-  departmentOptions,
-  addDepartment,
-} = require("./selections");
+const { initialSelection, addDepartment, addRole } = require("./selections");
 const mysql = require("mysql2/promise");
 
 async function askQuestions() {
@@ -49,6 +45,31 @@ async function askQuestions() {
     } catch (err) {
       console.error(err);
     }
+  } else if (initialList === "add a department") {
+    const { departmentName } = await inquirer.prompt(addDepartment);
+
+    const connection = await mysql.createConnection(buildConnectionOptions());
+    await connection.query(
+      `INSERT INTO departments (name) VALUES ('${departmentName}');`
+    );
+    const [updated] = await connection.query("SELECT * FROM departments;");
+    console.table(updated);
+  } else if (initialList === "add a role") {
+    const { roleName, roleSalary, departmentId } = await inquirer.prompt(
+      addRole
+    );
+
+    const connection = await mysql.createConnection(buildConnectionOptions());
+    await connection.query(
+      `INSERT INTO roles (name, salary, department_id) VALUES ('${roleName}', '${roleSalary}', '${departmentId}');`
+    );
+    const [updated] = await connection.query("SELECT * FROM roles;");
+    const [result] = await connection.query(
+      `SELECT roles.*, departments.name AS department_name
+        FROM roles 
+        JOIN departments ON roles.department_id = departments.id;`
+    );
+    console.table(result);
   }
   //     const { addDepartment: newDepartmentName } = await inquirer.prompt(
   //       addDepartment
@@ -57,7 +78,6 @@ async function askQuestions() {
   //   } else {
   //     dbDeclaration(departmentList);
 }
-
 async function main() {
   const connection = await createConnection(buildConnectionOptions());
   await askQuestions();
