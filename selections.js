@@ -14,6 +14,7 @@ const initialSelection = {
     "add a department",
     "add a role",
     "add an employee",
+    "update an employee role",
   ],
 };
 
@@ -81,11 +82,62 @@ const addEmployee = [
     },
   },
   {
-    type: "input",
-    name: "employeeManager",
-    message: "Enter Employee Manager",
-    default: null,
+    type: "confirm",
+    name: "managerStatus",
+    message: "Is this employee a manager?",
+    default: 0,
+  },
+  {
+    type: "list",
+    name: "managerId",
+    message: "Select Employee Manager",
+    choices: async () => {
+      const connection = await mysql.createConnection(buildConnectionOptions());
+      const [employees] = await connection.query(
+        "SELECT id, last_name FROM employees WHERE employees.isManager = 1;"
+      );
+      return employees.map(({ id, last_name }) => ({
+        name: `${last_name}`,
+        value: id.toString(),
+      }));
+    },
   },
 ];
 
-module.exports = { initialSelection, addDepartment, addRole, addEmployee };
+const updateRole = [
+  {
+    type: "list",
+    name: "updateEmployee",
+    choices: async () => {
+      const connection = await mysql.createConnection(buildConnectionOptions());
+      const [changeRole] = await connection.query(
+        "SELECT last_name, id FROM employees;"
+      );
+      return changeRole.map(({ id, last_name }) => ({
+        last_name,
+        value: id.toString(),
+      }));
+    },
+  },
+  {
+    type: "list",
+    name: "updatedRole",
+    message: "select new role:",
+    choices: async () => {
+      const connection = await mysql.createConnection(buildConnectionOptions());
+      const [roles] = await connection.query("SELECT id, name FROM roles;");
+      return roles.map(({ id, name }) => ({
+        name,
+        value: id.toString(),
+      }));
+    },
+  },
+];
+
+module.exports = {
+  initialSelection,
+  addDepartment,
+  addRole,
+  addEmployee,
+  updateRole,
+};

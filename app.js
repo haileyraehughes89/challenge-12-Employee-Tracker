@@ -9,6 +9,7 @@ const {
   addDepartment,
   addRole,
   addEmployee,
+  updateRole,
 } = require("./selections");
 const mysql = require("mysql2/promise");
 
@@ -28,7 +29,7 @@ async function askQuestions() {
     try {
       const connection = await mysql.createConnection(buildConnectionOptions());
       const [result] = await connection.query(
-        `SELECT roles.*, departments.name AS department_name
+        `SELECT roles.id, roles.name, roles.salary, departments.name AS department_name
         FROM roles 
         JOIN departments ON roles.department_id = departments.id;`
       );
@@ -41,7 +42,7 @@ async function askQuestions() {
     try {
       const connection = await mysql.createConnection(buildConnectionOptions());
       const [result] =
-        await connection.query(`  SELECT employees.*, roles.name AS job_title, roles.salary, departments.name AS department_name
+        await connection.query(`  SELECT employees.id, employees.first_name, employees.last_name, roles.name AS job_title, roles.salary, departments.name AS department_name, managerId
         FROM employees
         JOIN roles ON employees.role_id = roles.id
         JOIN departments ON roles.department_id = departments.id`);
@@ -76,27 +77,36 @@ async function askQuestions() {
     );
     console.table(result);
   } else if (initialList === "add an employee") {
-    const { firstName, lastName, roleId, employeeManager } =
+    const { firstName, lastName, roleId, managerStatus, managerId } =
       await inquirer.prompt(addEmployee);
+    const isManager = managerStatus ? 1 : 0;
 
     const connection = await mysql.createConnection(buildConnectionOptions());
     await connection.query(
-      `INSERT INTO employees (first_name, last_name, role_id, manager) VALUES ('${firstName}', '${lastName}', '${roleId}', '${employeeManager}');`
+      `INSERT INTO employees (first_name, last_name, role_id, isManager, managerId) VALUES ('${firstName}', '${lastName}', '${roleId}', '${isManager}', '${managerId}');`
     );
     const [updated] = await connection.query("SELECT * FROM employees;");
     const [result] =
-      await connection.query(`SELECT employees.*, roles.name AS job_title, roles.salary, departments.name AS department_name, departments.id AS departments_id
-        FROM employees
-        JOIN roles ON employees.role_id = roles.id
-        JOIN departments ON roles.department_id = departments.id`);
+      await connection.query(`SELECT employees.id, employees.first_name, employees.last_name, roles.name AS job_title, roles.salary, departments.name AS department_name, managerId
+      FROM employees
+      JOIN roles ON employees.role_id = roles.id
+      JOIN departments ON roles.department_id = departments.id`);
+    console.table(result);
+  } else if (initialList === "update an employee role") {
+    const { updateEmployee, updatedRole } = await inquirer.prompt(updateRole);
+
+    const connection = await mysql.createConnection(buildConnectionOptions());
+    await connection.query(
+      `UPDATE employees SET role_id = '${updatedRole}' WHERE id = '${updateEmployee}'`
+    );
+    const [updated] = await connection.query("SELECT * FROM employees;");
+    const [result] =
+      await connection.query(`SELECT employees.id, employees.first_name, employees.last_name, roles.name AS job_title, roles.salary, departments.name AS department_name, managerId
+      FROM employees
+      JOIN roles ON employees.role_id = roles.id
+      JOIN departments ON roles.department_id = departments.id`);
     console.table(result);
   }
-  //     const { addDepartment: newDepartmentName } = await inquirer.prompt(
-  //       addDepartment
-  //     );
-  //     dbDeclaration(departmentList, newDepartmentName);
-  //   } else {
-  //     dbDeclaration(departmentList);
 }
 async function main() {
   const connection = await createConnection(buildConnectionOptions());

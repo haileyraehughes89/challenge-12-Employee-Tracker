@@ -11,8 +11,8 @@ CREATE TABLE `departments`(
 CREATE TABLE `roles`(
     `id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `name` VARCHAR(30) UNIQUE NOT NULL
-    , `department_id` INT
     , `salary` INT
+    , `department_id` INT
 
     ,FOREIGN KEY (`department_id`) REFERENCES `departments`(`id`)
 );
@@ -22,9 +22,8 @@ CREATE TABLE `employees`(
     , `first_name` VARCHAR(30) UNIQUE NOT NULL
     , `last_name` VARCHAR(30) UNIQUE NOT NULL
     , `role_id` INT NOT NULL
-    , `manager` VARCHAR(30) NOT NULL
+    , `isManager` TINYINT(1) NOT NULL
+    , `managerId` INT
     , FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`)
 
 );
-
-

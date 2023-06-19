@@ -6,20 +6,14 @@ VALUES ("IT")
 , ("HR");
 
 INSERT INTO `roles`(name, department_id, salary) 
-VALUES ("manager",2,200)
-, ("developer",3,200)
-, ("typist",2,200);
-
-SELECT *
-FROM roles
-JOIN departments ON roles.department_id = departments.id;
+VALUES ("artist",2,600)
+, ("developer",3,700)
+, ("typist",2,300);
 
 
-INSERT INTO `employees`(first_name, last_name, role_id, manager) 
-VALUES ("babs", "blabs", 2,"manager")
-, ("marge", "barge", 2, "manager name")
-, ("sunny", "bunny", 3, "manager smanager");
+INSERT INTO `employees`(first_name, last_name, role_id, isManager, managerId) 
+VALUES ("babs", "blabs", 2, 1, 2)
+, ("marge", "barge", 2, 0, 2)
+, ("sunny", "bunny", 3, 0, 2);
 
-SELECT *
-FROM employees
-JOIN roles ON employees.role_id = roles.name;
+
