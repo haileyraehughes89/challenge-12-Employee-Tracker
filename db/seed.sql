@@ -5,10 +5,11 @@ VALUES ("IT")
 , ("SALES")
 , ("HR");
 
-INSERT INTO `roles`(name) 
-VALUES ("manager")
-, ("developer")
-, ("typist");
+INSERT INTO `roles`(name,department_name,salary) 
+VALUES ("manager","SALES",200)
+, ("developer","HR",200)
+, ("typist","IT",200);
+
 
 INSERT INTO `employees`(name) 
 VALUES ("babs")
