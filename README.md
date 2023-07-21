@@ -1,46 +1,21 @@
-
-  # Employee Database 
+# Employee Database 
 
 
 ## Description
 
   <span style="color:#F4F1BB">
-  Description Pending...
+This application is to be used by business owners who want to view and manage the departments, department roles, and employees that they oversee. Upon selecting departments, the owner will see the department name and id.Upon selecting roles, the owner will see a list of roles, their ids, and the departments they exist in.  Upon selecting employees they will be provided the first name, last name, id, role and department of all employee. Owners are able up add a department, role and employee, as well as update employees. 
   </span>
   
   ## Installation Instructions
   
   <span style="color:#F4F1BB">
-  instructions pending...
+  1. Install Node Package Manager
+  2. Enter the command node app
+  3. Follow the guided instructions provided upon initialization 
   </span>
   
-## Tabel of Contents:
-<div style="color:pink">
-<li>
-<a href="#usage" style="color:pink">Usage</a>
-</li>
-<li>
-<a href="#credits" style="color:pink">Credits</a>
-</li>
-<li>
-<a href="#questions" style="color:pink">Questions</a>
-</li>
-<li>
-<a href="#features" style="color:pink">Features</a>
-</li>
-</div>
 
-
-## Usage
-
-  Usage pending...
-
-
-## Credits
-
-<span id="credits" style="color:#F4F1BB">
-  no credits
-</span>
 
 ## Questions: 
 
@@ -56,6 +31,3 @@
 <span id="features" style="color:#F4F1BB">
   ""
 </span>
-
-
-## Tests
