@@ -31,3 +31,7 @@ This application is to be used by business owners who want to view and manage th
 <span id="features" style="color:#F4F1BB">
   ""
 </span>
+
+
+https://github.com/haileyraehughes89/challenge-12-Employee-Tracker/assets/127250721/7fdd2dcd-5012-4fd7-b97e-cf7c8be3dd4d
+
