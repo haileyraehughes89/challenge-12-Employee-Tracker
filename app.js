@@ -108,6 +108,7 @@ async function askQuestions() {
     console.table(result);
   }
 }
+
 async function main() {
   const connection = await createConnection(buildConnectionOptions());
   await askQuestions();
